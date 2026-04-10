@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SEVEN Vendor Directory</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#06090f;--s1:#0b1120;--s2:#111827;--s3:#1a2336;
+  --b1:#1e3058;--b2:#2a4070;
+  --acc:#2563eb;--acc2:#3b82f6;--acc3:#60a5fa;
+  --t1:#f1f5f9;--t2:#94a3b8;--t3:#475569;
+  --font:'IBM Plex Sans Arabic',sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+  --display:'Syne',sans-serif;
+  --r:12px;--r2:8px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--t1);font-family:var(--font);min-height:100vh}
+a{text-decoration:none}
+
+/* HERO */
+.hero{
+  padding:60px 40px 40px;
+  background:linear-gradient(135deg,#06090f 0%,#0d1830 50%,#06090f 100%);
+  border-bottom:1px solid var(--b1);
+  position:relative;overflow:hidden
+}
+.hero::before{
+  content:'';position:absolute;top:-40%;right:-10%;
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(37,99,235,.12) 0%,transparent 70%);
+  pointer-events:none
+}
+.hero::after{
+  content:'';position:absolute;bottom:-30%;left:5%;
+  width:400px;height:400px;border-radius:50%;
+  background:radial-gradient(circle,rgba(59,130,246,.06) 0%,transparent 70%);
+  pointer-events:none
+}
+.hero-inner{max-width:1200px;margin:0 auto;position:relative;z-index:1}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(37,99,235,.12);border:1px solid rgba(37,99,235,.3);
+  padding:5px 14px;border-radius:20px;font-size:11px;font-weight:600;
+  color:var(--acc3);letter-spacing:.8px;text-transform:uppercase;margin-bottom:20px
+}
+.hero-badge span{width:6px;height:6px;border-radius:50%;background:var(--acc2)}
+.hero-title{
+  font-family:var(--display);font-size:clamp(32px,5vw,56px);
+  font-weight:800;line-height:1.1;margin-bottom:12px;
+  background:linear-gradient(135deg,#f1f5f9 30%,#60a5fa 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent
+}
+.hero-sub{font-size:15px;color:var(--t2);max-width:500px;line-height:1.6;margin-bottom:32px}
+.stats-row{display:flex;gap:32px;flex-wrap:wrap}
+.stat{display:flex;flex-direction:column;gap:3px}
+.stat-v{font-family:var(--display);font-size:28px;font-weight:700;color:var(--t1)}
+.stat-l{font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.6px}
+
+/* SEARCH */
+.search-bar{
+  max-width:1200px;margin:0 auto;padding:24px 40px;
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap
+}
+.search-main{
+  flex:1;min-width:280px;position:relative
+}
+.search-main input{
+  width:100%;background:var(--s1);border:1.5px solid var(--b1);
+  color:var(--t1);padding:13px 16px 13px 46px;border-radius:var(--r);
+  font-size:14px;outline:none;font-family:var(--font);
+  transition:border .2s,box-shadow .2s
+}
+.search-main input:focus{border-color:var(--acc2);box-shadow:0 0 0 3px rgba(37,99,235,.15)}
+.search-main input::placeholder{color:var(--t3)}
+.search-main svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:17px;height:17px;color:var(--t3)}
+.fsel{
+  background:var(--s1);border:1.5px solid var(--b1);color:var(--t1);
+  padding:13px 14px;border-radius:var(--r);font-size:13px;
+  outline:none;cursor:pointer;font-family:var(--font);min-width:160px
+}
+.fsel option{background:#0b1120}
+.fsel:focus{border-color:var(--acc2)}
+.results-count{font-size:12px;color:var(--t3);font-family:var(--mono);white-space:nowrap}
+
+/* CATEGORY TABS */
+.cat-tabs{
+  max-width:1200px;margin:0 auto;padding:0 40px 20px;
+  display:flex;gap:8px;flex-wrap:wrap
+}
+.cat-tab{
+  display:flex;align-items:center;gap:8px;
+  padding:9px 18px;border-radius:var(--r);border:1.5px solid var(--b1);
+  background:var(--s1);color:var(--t2);font-size:13px;font-weight:500;
+  cursor:pointer;transition:all .2s;font-family:var(--font)
+}
+.cat-tab:hover{border-color:var(--b2);color:var(--t1)}
+.cat-tab.active{border-color:var(--acc2);background:rgba(37,99,235,.1);color:var(--acc3)}
+.cat-tab .ct-icon{font-size:16px}
+.cat-tab .ct-count{
+  font-size:10px;font-family:var(--mono);font-weight:600;
+  background:var(--s3);padding:2px 7px;border-radius:10px;color:var(--t2)
+}
+.cat-tab.active .ct-count{background:rgba(37,99,235,.2);color:var(--acc3)}
+
+/* SUB TABS */
+.sub-tabs{
+  max-width:1200px;margin:0 auto;padding:0 40px 20px;
+  display:flex;gap:6px;flex-wrap:wrap
+}
+.sub-tab{
+  padding:6px 13px;border-radius:20px;border:1px solid var(--b1);
+  background:transparent;color:var(--t3);font-size:11px;font-weight:500;
+  cursor:pointer;transition:all .15s;font-family:var(--font)
+}
+.sub-tab:hover{border-color:var(--b2);color:var(--t2)}
+.sub-tab.active{border-color:var(--acc2);background:rgba(37,99,235,.08);color:var(--acc3)}
+
+/* TABLE */
+.table-wrap{
+  max-width:1200px;margin:0 auto 20px;padding:0 40px;
+}
+.vendor-table{width:100%;border-collapse:collapse}
+.vendor-table thead th{
+  padding:10px 14px;text-align:left;font-size:10px;font-weight:600;
+  color:var(--t3);text-transform:uppercase;letter-spacing:.6px;
+  background:var(--s1);border-bottom:1px solid var(--b1);
+  border-top:1px solid var(--b1);white-space:nowrap
+}
+.vendor-table thead th:first-child{border-left:1px solid var(--b1);border-radius:var(--r) 0 0 0}
+.vendor-table thead th:last-child{border-right:1px solid var(--b1);border-radius:0 var(--r) 0 0}
+.vendor-table tbody tr{
+  border-bottom:1px solid rgba(30,48,88,.5);
+  transition:background .12s;cursor:default
+}
+.vendor-table tbody tr:hover{background:rgba(37,99,235,.04)}
+.vendor-table td{padding:12px 14px;vertical-align:middle;font-size:13px;color:var(--t2)}
+.vendor-table tbody tr:last-child td:first-child{border-radius:0 0 0 var(--r)}
+.vendor-table tbody tr:last-child td:last-child{border-radius:0 0 var(--r) 0}
+.tbl-border{border:1px solid var(--b1);border-radius:var(--r);overflow:hidden}
+.vendor-name{font-weight:600;color:var(--t1);font-size:13.5px}
+.vendor-no{font-family:var(--mono);font-size:11px;color:var(--t3)}
+.sub-badge{
+  display:inline-flex;align-items:center;padding:3px 9px;
+  border-radius:20px;font-size:10.5px;font-weight:600;white-space:nowrap
+}
+.email-link{color:var(--acc3);font-size:12px}
+.email-link:hover{text-decoration:underline}
+.phone-txt{font-family:var(--mono);font-size:11px}
+
+/* EMPTY */
+.empty-state{
+  text-align:center;padding:60px 20px;
+  display:flex;flex-direction:column;align-items:center;gap:12px
+}
+.empty-icon{font-size:40px;opacity:.3}
+.empty-txt{font-size:14px;color:var(--t3)}
+
+/* PAGER */
+.pager{
+  max-width:1200px;margin:0 auto;padding:16px 40px 40px;
+  display:flex;align-items:center;justify-content:center;gap:10px
+}
+.pager-btn{
+  background:var(--s1);border:1px solid var(--b2);color:var(--t2);
+  padding:7px 16px;border-radius:var(--r2);font-size:12px;
+  cursor:pointer;font-family:var(--font);transition:all .15s
+}
+.pager-btn:hover:not(:disabled){border-color:var(--acc2);color:var(--acc3)}
+.pager-btn:disabled{opacity:.3;cursor:not-allowed}
+.pager-info{font-size:12px;color:var(--t3);font-family:var(--mono)}
+
+/* LOADING */
+.loading{display:flex;align-items:center;justify-content:center;padding:60px;gap:12px;color:var(--t3)}
+.spinner{width:24px;height:24px;border:2px solid var(--b2);border-top-color:var(--acc2);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .hero{padding:40px 20px 30px}
+  .search-bar,.cat-tabs,.sub-tabs,.table-wrap,.pager{padding-left:16px;padding-right:16px}
+  .stats-row{gap:20px}
+  .fsel{min-width:130px}
+}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--b2);border-radius:2px}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge"><span></span>SEVEN Entertainment</div>
+    <h1 class="hero-title">Vendor Directory</h1>
+    <p class="hero-sub">Approved supplier database — search across all categories and find the right vendor fast.</p>
+    <div class="stats-row">
+      <div class="stat"><div class="stat-v" id="totalCount">—</div><div class="stat-l">Total Vendors</div></div>
+      <div class="stat"><div class="stat-v">4</div><div class="stat-l">Categories</div></div>
+      <div class="stat"><div class="stat-v">24</div><div class="stat-l">Sub-categories</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="search-bar">
+  <div class="search-main">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="vSrch" placeholder="Search by name, email, or vendor number…" oninput="onSearch()"/>
+  </div>
+  <select class="fsel" id="vSubCat" onchange="onFilter()">
+    <option value="">All Sub-categories</option>
+  </select>
+  <span class="results-count" id="vCt">Loading…</span>
+</div>
+
+<div class="cat-tabs" id="catTabs">
+  <button class="cat-tab active" data-cat="all" onclick="setMainCat('all',this)">
+    <span class="ct-icon">🌐</span>All <span class="ct-count" id="cnt-all">—</span>
+  </button>
+  <button class="cat-tab" data-cat="IT" onclick="setMainCat('IT',this)">
+    <span class="ct-icon">💻</span>IT <span class="ct-count" id="cnt-it">—</span>
+  </button>
+  <button class="cat-tab" data-cat="Marketing" onclick="setMainCat('Marketing',this)">
+    <span class="ct-icon">📣</span>Marketing <span class="ct-count" id="cnt-mkt">—</span>
+  </button>
+  <button class="cat-tab" data-cat="Services" onclick="setMainCat('Services',this)">
+    <span class="ct-icon">⚙️</span>Services <span class="ct-count" id="cnt-svc">—</span>
+  </button>
+  <button class="cat-tab" data-cat="Consultation & Engineering" onclick="setMainCat('Consultation & Engineering',this)">
+    <span class="ct-icon">🏗️</span>Consultation & Engineering <span class="ct-count" id="cnt-con">—</span>
+  </button>
+</div>
+
+<div class="sub-tabs" id="subTabs"></div>
+
+<div class="table-wrap">
+  <div class="tbl-border">
+    <table class="vendor-table">
+      <thead>
+        <tr>
+          <th>Vendor No.</th>
+          <th>Vendor Name</th>
+          <th>Sub-category</th>
+          <th>Specialty</th>
+          <th>Email</th>
+          <th>Phone</th>
+        </tr>
+      </thead>
+      <tbody id="vBody">
+        <tr><td colspan="6"><div class="loading"><div class="spinner"></div>Loading vendors…</div></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="pager" id="vPager"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const sb = supabase.createClient(
+  'https://mucgimjdtegxcycpsnwb.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11Y2dpbWpkdGVneGN5Y3BzbndiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2MzA5MDIsImV4cCI6MjA5MTIwNjkwMn0.sRGMzXluEdwcdDSjnue9SJ2PIuxbmTdI8BIPh0UU3NY'
+);
+
+// ── STATE ──
+let ALL = [], filtered = [], mainCat = 'all', subCat = '', page = 1;
+const PER_PAGE = 50;
+
+// ── SUB-CATEGORIES MAP ──
+const SUB_MAP = {
+  'IT': ['Software','Hardware','IT Services','Network & Telecom','Subscriptions & Renewal','Office & Surveillance'],
+  'Marketing': ['Agency & Branding','Media & Advertising','Production & Print','Research & Campaign','Events','Sponsorship & PR'],
+  'Services': ['Facility Management','HR & Training','General Services','Maintenance','Insurance','Emdad'],
+  'Consultation & Engineering': ['Construction','Consultation','Engineering','Real Estate','Furniture','Consumables'],
+};
+
+// ── CATEGORY COLORS ──
+const CAT_COLORS = {
+  'Software':['#3b82f6','rgba(59,130,246,.15)'],
+  'Hardware':['#f59e0b','rgba(245,158,11,.15)'],
+  'IT Services':['#10b981','rgba(16,185,129,.15)'],
+  'Network & Telecom':['#8b5cf6','rgba(139,92,246,.15)'],
+  'Subscriptions & Renewal':['#06b6d4','rgba(6,182,212,.15)'],
+  'Office & Surveillance':['#ef4444','rgba(239,68,68,.15)'],
+  'Agency & Branding':['#8b5cf6','rgba(139,92,246,.15)'],
+  'Media & Advertising':['#2563eb','rgba(37,99,235,.15)'],
+  'Production & Print':['#f59e0b','rgba(245,158,11,.15)'],
+  'Research & Campaign':['#10b981','rgba(16,185,129,.15)'],
+  'Events':['#f97316','rgba(249,115,22,.15)'],
+  'Sponsorship & PR':['#ec4899','rgba(236,72,153,.15)'],
+  'Facility Management':['#10b981','rgba(16,185,129,.15)'],
+  'HR & Training':['#8b5cf6','rgba(139,92,246,.15)'],
+  'General Services':['#64748b','rgba(100,116,139,.15)'],
+  'Maintenance':['#f59e0b','rgba(245,158,11,.15)'],
+  'Insurance':['#06b6d4','rgba(6,182,212,.15)'],
+  'Emdad':['#f97316','rgba(249,115,22,.15)'],
+  'Construction':['#f59e0b','rgba(245,158,11,.15)'],
+  'Consultation':['#3b82f6','rgba(59,130,246,.15)'],
+  'Engineering':['#10b981','rgba(16,185,129,.15)'],
+  'Real Estate':['#8b5cf6','rgba(139,92,246,.15)'],
+  'Furniture':['#ec4899','rgba(236,72,153,.15)'],
+  'Consumables':['#94a3b8','rgba(148,163,184,.15)'],
+};
+
+// ── LOAD ALL VENDORS ──
+async function loadAll() {
+  let all = [], from = 0, chunk = 1000;
+  while(true) {
+    const { data, error } = await sb.from('vendors').select('vendor_number,name,category,subcategory,specialty,email,phone').range(from, from+chunk-1);
+    if(error || !data || !data.length) break;
+    all = [...all, ...data];
+    if(data.length < chunk) break;
+    from += chunk;
+  }
+  ALL = all;
+  // Update counts
+  document.getElementById('totalCount').textContent = ALL.length.toLocaleString();
+  document.getElementById('cnt-all').textContent = ALL.length.toLocaleString();
+  document.getElementById('cnt-it').textContent = ALL.filter(v=>v.category==='IT').length;
+  document.getElementById('cnt-mkt').textContent = ALL.filter(v=>v.category==='Marketing').length;
+  document.getElementById('cnt-svc').textContent = ALL.filter(v=>v.category==='Services').length;
+  document.getElementById('cnt-con').textContent = ALL.filter(v=>v.category==='Consultation & Engineering').length;
+  applyFilters();
+}
+
+// ── FILTERS ──
+function setMainCat(cat, btn) {
+  mainCat = cat; subCat = ''; page = 1;
+  document.querySelectorAll('.cat-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  updateSubTabs();
+  updateSubSelect();
+  applyFilters();
+}
+
+function updateSubTabs() {
+  const wrap = document.getElementById('subTabs');
+  const subs = mainCat === 'all' ? [] : (SUB_MAP[mainCat] || []);
+  wrap.innerHTML = subs.map(s =>
+    `<button class="sub-tab${subCat===s?' active':''}" onclick="setSubCat('${s}',this)">${s}</button>`
+  ).join('');
+}
+
+function setSubCat(cat, btn) {
+  subCat = subCat === cat ? '' : cat;
+  page = 1;
+  document.querySelectorAll('.sub-tab').forEach(b=>b.classList.remove('active'));
+  if(subCat) btn.classList.add('active');
+  document.getElementById('vSubCat').value = subCat;
+  applyFilters();
+}
+
+function updateSubSelect() {
+  const sel = document.getElementById('vSubCat');
+  const subs = mainCat === 'all'
+    ? Object.values(SUB_MAP).flat()
+    : (SUB_MAP[mainCat] || []);
+  sel.innerHTML = '<option value="">All Sub-categories</option>' +
+    subs.map(s=>`<option value="${s}">${s}</option>`).join('');
+  sel.value = subCat;
+}
+
+function onFilter() {
+  subCat = document.getElementById('vSubCat').value;
+  page = 1;
+  document.querySelectorAll('.sub-tab').forEach(b => b.classList.toggle('active', b.textContent === subCat));
+  applyFilters();
+}
+
+function onSearch() { page = 1; applyFilters(); }
+
+function applyFilters() {
+  const q = document.getElementById('vSrch').value.toLowerCase().trim();
+  let d = ALL;
+  if(mainCat !== 'all') d = d.filter(v => v.category === mainCat);
+  if(subCat) d = d.filter(v => v.subcategory === subCat);
+  if(q) d = d.filter(v =>
+    (v.name||'').toLowerCase().includes(q) ||
+    (v.email||'').toLowerCase().includes(q) ||
+    (v.vendor_number||'').includes(q) ||
+    (v.specialty||'').toLowerCase().includes(q)
+  );
+  filtered = d;
+  render();
+}
+
+// ── RENDER ──
+function render() {
+  const total = filtered.length;
+  const pages = Math.max(1, Math.ceil(total / PER_PAGE));
+  if(page > pages) page = 1;
+  const slice = filtered.slice((page-1)*PER_PAGE, page*PER_PAGE);
+
+  document.getElementById('vCt').textContent = total.toLocaleString() + ' results';
+
+  const b = document.getElementById('vBody');
+  if(!slice.length) {
+    b.innerHTML = '<tr><td colspan="6"><div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-txt">No vendors found</div></div></td></tr>';
+    document.getElementById('vPager').innerHTML = '';
+    return;
+  }
+
+  b.innerHTML = slice.map(v => {
+    const cl = CAT_COLORS[v.subcategory] || ['#64748b','rgba(100,116,139,.15)'];
+    return `<tr>
+      <td><span class="vendor-no">${v.vendor_number||'—'}</span></td>
+      <td><div class="vendor-name">${v.name||'—'}</div></td>
+      <td><span class="sub-badge" style="background:${cl[1]};color:${cl[0]}">${v.subcategory||'—'}</span></td>
+      <td style="font-size:12px;color:var(--t3)">${v.specialty||'—'}</td>
+      <td>${v.email?`<a href="mailto:${v.email}" class="email-link">${v.email}</a>`:'—'}</td>
+      <td><span class="phone-txt">${v.phone||'—'}</span></td>
+    </tr>`;
+  }).join('');
+
+  // Pager
+  const pg = document.getElementById('vPager');
+  if(pages <= 1) { pg.innerHTML = ''; return; }
+  pg.innerHTML =
+    `<button class="pager-btn" onclick="goPage(-1)" ${page===1?'disabled':''}>← Prev</button>` +
+    `<span class="pager-info">Page ${page} of ${pages}</span>` +
+    `<button class="pager-btn" onclick="goPage(1)" ${page===pages?'disabled':''}>Next →</button>`;
+}
+
+function goPage(d) {
+  page += d;
+  render();
+  window.scrollTo({top:300,behavior:'smooth'});
+}
+
+// ── INIT ──
+loadAll();
+</script>
+</body>
+</html>
